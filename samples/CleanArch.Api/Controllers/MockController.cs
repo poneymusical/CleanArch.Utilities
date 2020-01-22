@@ -32,5 +32,12 @@ namespace CleanArch.Api.Controllers
             var response = await _mediator.Send(request);
             return this.FromServiceResponseStatus(response);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] MyEntityUpdateRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return this.FromServiceResponseStatus(response);
+        }
     }
 }

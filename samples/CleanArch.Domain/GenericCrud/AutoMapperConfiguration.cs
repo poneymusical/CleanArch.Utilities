@@ -8,6 +8,7 @@ namespace CleanArch.Domain.GenericCrud
         public AutoMapperConfiguration()
         {
             CreateMap<MyEntityCreateRequest, MyEntity.MyEntity>();
+            CreateMap<MyEntityUpdateRequest, MyEntity.MyEntity>();
         }
     }
 }
