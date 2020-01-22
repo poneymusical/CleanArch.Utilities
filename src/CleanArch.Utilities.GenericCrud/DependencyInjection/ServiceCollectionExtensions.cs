@@ -6,6 +6,7 @@ using AutoMapper;
 using CleanArch.Utilities.Core.Service;
 using CleanArch.Utilities.GenericCrud.Entities;
 using CleanArch.Utilities.GenericCrud.Services.Create;
+using CleanArch.Utilities.GenericCrud.Services.Update;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,14 +22,18 @@ namespace CleanArch.Utilities.GenericCrud.DependencyInjection
                 .Where(type => type.GetInterface(typeof(IIdentifiable<>).Name) != null).ToList();
 
             foreach (var entity in entities)
-                AddGenericCreate(services, assembly, entity);
+            {
+                var id = entity.GetInterface(typeof(IIdentifiable<>).Name).GenericTypeArguments[0];
+
+                AddGenericCreate(services, assembly, entity, id);
+                AddGenericUpdate(services, assembly, entity, id);
+            }
 
             return services;
         }
 
-        private static void AddGenericCreate(IServiceCollection services, Assembly assembly, Type entity)
+        private static void AddGenericCreate(IServiceCollection services, Assembly assembly, Type entity, Type id)
         {
-            var id = entity.GetInterface(typeof(IIdentifiable<>).Name).GenericTypeArguments[0];
             var serviceResponseBound = typeof(ServiceResponse<>).MakeGenericType(entity);
             var iCreateRequestBound = typeof(ICreateRequest<,>).MakeGenericType(entity, id);
 
@@ -39,6 +44,22 @@ namespace CleanArch.Utilities.GenericCrud.DependencyInjection
             {
                 var requestHandlerInterfaceBound = typeof(IRequestHandler<,>).MakeGenericType(createRequest, serviceResponseBound);
                 var createHandlerBound = typeof(CreateHandler<,,>).MakeGenericType(createRequest, entity, id);
+                services.AddTransient(requestHandlerInterfaceBound, createHandlerBound);
+            }
+        }
+
+        private static void AddGenericUpdate(IServiceCollection services, Assembly assembly, Type entity, Type id)
+        {
+            var serviceResponseBound = typeof(ServiceResponse<>).MakeGenericType(entity);
+            var iUpdateRequestBound = typeof(IUpdateRequest<,>).MakeGenericType(entity, id);
+
+            var updateRequests = assembly.GetTypes()
+                .Where(type => type.GetInterface(iUpdateRequestBound.Name) != null).ToList();
+
+            foreach (var updateRequest in updateRequests)
+            {
+                var requestHandlerInterfaceBound = typeof(IRequestHandler<,>).MakeGenericType(updateRequest, serviceResponseBound);
+                var createHandlerBound = typeof(UpdateHandler<,,>).MakeGenericType(updateRequest, entity, id);
                 services.AddTransient(requestHandlerInterfaceBound, createHandlerBound);
             }
         }

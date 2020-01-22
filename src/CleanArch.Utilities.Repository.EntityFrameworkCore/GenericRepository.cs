@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CleanArch.Utilities.Repository.EntityFrameworkCore
 {
     public class GenericRepository<TEntity, TId> : IGenericRepository<TEntity, TId> 
-        where TEntity : IIdentifiable<TId>
+        where TEntity : class, IIdentifiable<TId>
     {
         private readonly DbContext _context;
 
@@ -19,7 +19,18 @@ namespace CleanArch.Utilities.Repository.EntityFrameworkCore
         {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
+            return entity;
+        }
 
+        public async Task<TEntity> FindAsync(TId id)
+        {
+            return await _context.Set<TEntity>().FindAsync(id);
+        }
+
+        public async Task<TEntity> UpdateAsync(TEntity entity)
+        {
+            _context.Update(entity);
+            await _context.SaveChangesAsync();
             return entity;
         }
     }
