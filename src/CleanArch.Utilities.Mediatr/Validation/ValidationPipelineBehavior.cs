@@ -2,13 +2,15 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanArch.Utilities.Mediatr.PipelineBehavior;
+using CleanArch.Utilities.Mediatr.Service;
 using FluentValidation;
-using Mediatr.Utilities.Service;
 using MediatR;
 
-namespace Mediatr.Utilities.Validation
+namespace CleanArch.Utilities.Mediatr.Validation
 {
-    public class ValidationPipelineBehavior<TRequest,TResponse> : IPipelineBehavior<TRequest, ServiceResponse<TResponse>>
+    public class ValidationPipelineBehavior<TRequest,TResponse> : IServicePipelineBehavior<TRequest, TResponse>
+        where TRequest : IServiceRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 

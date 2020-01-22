@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Mediatr.Utilities.Service
+namespace CleanArch.Utilities.Mediatr.Service
 {
     public interface IServiceRequest<T> : IRequest<ServiceResponse<T>>
     {

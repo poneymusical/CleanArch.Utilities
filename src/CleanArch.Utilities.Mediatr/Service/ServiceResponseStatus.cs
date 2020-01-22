@@ -1,4 +1,4 @@
-﻿namespace Mediatr.Utilities.Service
+﻿namespace CleanArch.Utilities.Mediatr.Service
 {
     public enum ServiceResponseStatus
     {
@@ -6,6 +6,7 @@
         NotFound,
         BadRequest,
         Conflict,
+        Forbidden,
         UnknownError
     }
 }

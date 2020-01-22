@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CleanArch.Utilities.DependencyInjection\CleanArch.Utilities.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Test.CleanArch.Utilities.FakeDomain\Test.CleanArch.Utilities.FakeDomain.csproj" />
+  </ItemGroup>
+
+
+</Project>
