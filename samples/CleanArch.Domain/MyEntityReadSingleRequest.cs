@@ -6,4 +6,6 @@ namespace CleanArch.Domain
     {
         public int Id { get; set; }
     }
+
+    //TODO It will always be the same class. The interface could be replaced by a class. DI should be adapted but it must work.
 }
