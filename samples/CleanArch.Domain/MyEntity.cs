@@ -1,6 +1,6 @@
 ﻿using CleanArch.Utilities.GenericCrud.Entities;
 
-namespace CleanArch.Domain.GenericCrud.MyEntity
+namespace CleanArch.Domain
 {
     public class MyEntity : IIdentifiable<int>
     {
