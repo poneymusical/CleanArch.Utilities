@@ -1,6 +1,6 @@
 ﻿using CleanArch.Utilities.GenericCrud.Services.Update;
 
-namespace CleanArch.Domain.GenericCrud.MyEntity
+namespace CleanArch.Domain
 {
     public class MyEntityUpdateRequest : IUpdateRequest<MyEntity, int>
     {

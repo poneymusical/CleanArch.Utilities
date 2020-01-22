@@ -1,6 +1,6 @@
 ﻿using CleanArch.Utilities.GenericCrud.Services.Create;
 
-namespace CleanArch.Domain.GenericCrud.MyEntity
+namespace CleanArch.Domain
 {
     public class MyEntityCreateRequest : ICreateRequest<MyEntity, int>
     {

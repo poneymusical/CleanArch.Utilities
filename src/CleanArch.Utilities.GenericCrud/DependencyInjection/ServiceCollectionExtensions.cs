@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
 using CleanArch.Utilities.Core.Service;
 using CleanArch.Utilities.GenericCrud.Entities;
 using CleanArch.Utilities.GenericCrud.Services.Create;
+using CleanArch.Utilities.GenericCrud.Services.ReadSingle;
 using CleanArch.Utilities.GenericCrud.Services.Update;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +27,7 @@ namespace CleanArch.Utilities.GenericCrud.DependencyInjection
 
                 AddGenericCreate(services, assembly, entity, id);
                 AddGenericUpdate(services, assembly, entity, id);
+                AddGenericReadSingle(services, assembly, entity, id);
             }
 
             return services;
@@ -59,8 +60,24 @@ namespace CleanArch.Utilities.GenericCrud.DependencyInjection
             foreach (var updateRequest in updateRequests)
             {
                 var requestHandlerInterfaceBound = typeof(IRequestHandler<,>).MakeGenericType(updateRequest, serviceResponseBound);
-                var createHandlerBound = typeof(UpdateHandler<,,>).MakeGenericType(updateRequest, entity, id);
-                services.AddTransient(requestHandlerInterfaceBound, createHandlerBound);
+                var updateHandlerBound = typeof(UpdateHandler<,,>).MakeGenericType(updateRequest, entity, id);
+                services.AddTransient(requestHandlerInterfaceBound, updateHandlerBound);
+            }
+        }
+
+        private static void AddGenericReadSingle(IServiceCollection services, Assembly assembly, Type entity, Type id)
+        {
+            var serviceResponseBound = typeof(ServiceResponse<>).MakeGenericType(entity);
+            var iReadSingleRequestBound = typeof(IReadSingleRequest<,>).MakeGenericType(entity, id);
+
+            var readSingleRequests = assembly.GetTypes()
+                .Where(type => type.GetInterface(iReadSingleRequestBound.Name) != null).ToList();
+
+            foreach (var readSingleRequest in readSingleRequests)
+            {
+                var requestHandlerInterfaceBound = typeof(IRequestHandler<,>).MakeGenericType(readSingleRequest, serviceResponseBound);
+                var readSingleHandlerBound = typeof(ReadSingleHandler<,,>).MakeGenericType(readSingleRequest, entity, id);
+                services.AddTransient(requestHandlerInterfaceBound, readSingleHandlerBound);
             }
         }
     }

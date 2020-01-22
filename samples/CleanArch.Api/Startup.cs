@@ -36,7 +36,7 @@ namespace CleanArch.Api
             services.AddDbContext<CleanArchContext>(options => options.UseInMemoryDatabase("CleanArchDb"));
             services.AddEFCoreGenericRepository<CleanArchContext>();
 
-            var serviceAssembly = typeof(MockServiceRequest).Assembly;
+            var serviceAssembly = typeof(MyEntity).Assembly;
             services.AddServices(serviceAssembly);
             services.AddGenericCrud(serviceAssembly);
         }

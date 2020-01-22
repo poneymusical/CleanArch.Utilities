@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using CleanArch.Domain;
-using CleanArch.Domain.GenericCrud.MyEntity;
 using CleanArch.Utilities.AspNetCore.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,10 +17,10 @@ namespace CleanArch.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{value}")]
-        public async Task<IActionResult> Get(int value)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            var request = new MockServiceRequest { Value = value };
+            var request = new MyEntityReadSingleRequest { Id = id };
             var response = await _mediator.Send(request);
             return this.FromServiceResponseStatus(response);
         }

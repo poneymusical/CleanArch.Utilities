@@ -1,4 +1,4 @@
-﻿using CleanArch.Domain.GenericCrud.MyEntity;
+﻿using CleanArch.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArch.Repository
