@@ -4,5 +4,5 @@ using CleanArch.Utilities.GenericCrud.Entities;
 namespace CleanArch.Utilities.GenericCrud.Services.Create
 {
     public interface ICreateRequest<TEntity, TId> : IServiceRequest<TEntity>
-        where TEntity: IIdentifiable<TId> { }
+        where TEntity: class, IIdentifiable<TId> { }
 }

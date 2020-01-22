@@ -14,4 +14,7 @@
     <ProjectReference Include="..\CleanArch.Utilities.Core\CleanArch.Utilities.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Update\" />
+  </ItemGroup>
 </Project>
