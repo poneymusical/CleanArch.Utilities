@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using CleanArch.Domain;
 using CleanArch.Utilities.AspNetCore.Extensions;
+using CleanArch.Utilities.GenericCrud.Services.ReadPaginated;
+using CleanArch.Utilities.GenericCrud.Services.ReadSingle;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +22,15 @@ namespace CleanArch.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var request = new MyEntityReadSingleRequest { Id = id };
+            var request = new ReadSingleRequest<MyEntity, int> { Id = id };
+            var response = await _mediator.Send(request);
+            return this.FromServiceResponseStatus(response);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery] int pageIndex, [FromQuery] int pageSize)
+        {
+            var request = new ReadPaginatedRequest<MyEntity, int> { PageIndex = pageIndex, PageSize = pageSize };
             var response = await _mediator.Send(request);
             return this.FromServiceResponseStatus(response);
         }

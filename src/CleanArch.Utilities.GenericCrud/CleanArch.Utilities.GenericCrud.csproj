@@ -16,6 +16,5 @@
 
   <ItemGroup>
     <Folder Include="Services\Update\" />
-    <Folder Include="Services\ReadSingle\" />
   </ItemGroup>
 </Project>
