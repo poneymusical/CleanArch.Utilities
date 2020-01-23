@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CleanArch.Domain;
 using CleanArch.Utilities.AspNetCore.Extensions;
+using CleanArch.Utilities.GenericCrud.Services.Delete;
 using CleanArch.Utilities.GenericCrud.Services.ReadPaginated;
 using CleanArch.Utilities.GenericCrud.Services.ReadSingle;
 using MediatR;
@@ -45,6 +46,14 @@ namespace CleanArch.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] MyEntityUpdateRequest request)
         {
+            var response = await _mediator.Send(request);
+            return this.FromServiceResponseStatus(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var request = new DeleteRequest<MyEntity, int> { Id = id };
             var response = await _mediator.Send(request);
             return this.FromServiceResponseStatus(response);
         }

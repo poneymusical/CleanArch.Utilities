@@ -40,5 +40,13 @@ namespace CleanArch.Utilities.Repository.EntityFrameworkCore
         {
             return await _context.Set<TEntity>().Skip(pageIndex * pageSize).Take(pageSize).ToListAsync();
         }
+
+        public async Task<TId> DeleteAsync(TEntity entity)
+        {
+            var id = entity.Id;
+            _context.Remove(entity);
+            await _context.SaveChangesAsync();
+            return id;
+        }
     }
 }
