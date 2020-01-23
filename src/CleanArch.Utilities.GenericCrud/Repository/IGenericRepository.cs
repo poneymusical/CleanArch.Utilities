@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using CleanArch.Utilities.GenericCrud.Entities;
 
 namespace CleanArch.Utilities.GenericCrud.Repository
@@ -9,5 +10,6 @@ namespace CleanArch.Utilities.GenericCrud.Repository
         Task<TEntity> CreateAsync(TEntity entity);
         Task<TEntity> FindAsync(TId id);
         Task<TEntity> UpdateAsync(TEntity entity);
+        Task<IEnumerable<TEntity>> GetPageAsync(int pageIndex, int pageSize);
     }
 }
