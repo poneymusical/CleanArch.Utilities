@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using CleanArch.Utilities.GenericCrud.Entities;
 using CleanArch.Utilities.GenericCrud.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +34,19 @@ namespace CleanArch.Utilities.Repository.EntityFrameworkCore
             _context.Update(entity);
             await _context.SaveChangesAsync();
             return entity;
+        }
+
+        public async Task<IEnumerable<TEntity>> GetPageAsync(int pageIndex, int pageSize)
+        {
+            return await _context.Set<TEntity>().Skip(pageIndex * pageSize).Take(pageSize).ToListAsync();
+        }
+
+        public async Task<TId> DeleteAsync(TEntity entity)
+        {
+            var id = entity.Id;
+            _context.Remove(entity);
+            await _context.SaveChangesAsync();
+            return id;
         }
     }
 }

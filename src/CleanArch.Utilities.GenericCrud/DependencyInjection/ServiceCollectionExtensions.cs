@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
 using CleanArch.Utilities.Core.Service;
 using CleanArch.Utilities.GenericCrud.Entities;
 using CleanArch.Utilities.GenericCrud.Services.Create;
+using CleanArch.Utilities.GenericCrud.Services.Delete;
+using CleanArch.Utilities.GenericCrud.Services.ReadPaginated;
 using CleanArch.Utilities.GenericCrud.Services.ReadSingle;
 using CleanArch.Utilities.GenericCrud.Services.Update;
 using MediatR;
@@ -27,7 +30,9 @@ namespace CleanArch.Utilities.GenericCrud.DependencyInjection
 
                 AddGenericCreate(services, assembly, entity, id);
                 AddGenericUpdate(services, assembly, entity, id);
-                AddGenericReadSingle(services, assembly, entity, id);
+                AddGenericReadSingle(services, entity, id);
+                AddGenericReadPaginated(services, entity, id);
+                AddGenericDelete(services, entity, id);
             }
 
             return services;
@@ -65,20 +70,31 @@ namespace CleanArch.Utilities.GenericCrud.DependencyInjection
             }
         }
 
-        private static void AddGenericReadSingle(IServiceCollection services, Assembly assembly, Type entity, Type id)
+        private static void AddGenericReadSingle(IServiceCollection services, Type entity, Type id)
         {
             var serviceResponseBound = typeof(ServiceResponse<>).MakeGenericType(entity);
-            var iReadSingleRequestBound = typeof(IReadSingleRequest<,>).MakeGenericType(entity, id);
+            var readSingleRequest = typeof(ReadSingleRequest<,>).MakeGenericType(entity, id);
+            var requestHandlerInterfaceBound = typeof(IRequestHandler<,>).MakeGenericType(readSingleRequest, serviceResponseBound);
+            var readSingleHandlerBound = typeof(ReadSingleHandler<,,>).MakeGenericType(readSingleRequest, entity, id);
+            services.AddTransient(requestHandlerInterfaceBound, readSingleHandlerBound);
+        }
 
-            var readSingleRequests = assembly.GetTypes()
-                .Where(type => type.GetInterface(iReadSingleRequestBound.Name) != null).ToList();
+        private static void AddGenericReadPaginated(IServiceCollection services, Type entity, Type id)
+        {
+            var serviceResponseBound = typeof(ServiceResponse<>).MakeGenericType(typeof(IEnumerable<>).MakeGenericType(entity));
+            var readPaginatedRequest = typeof(ReadPaginatedRequest<,>).MakeGenericType(entity, id);
+            var requestHandlerInterfaceBound = typeof(IRequestHandler<,>).MakeGenericType(readPaginatedRequest, serviceResponseBound);
+            var readPaginatedHandlerBound = typeof(ReadPaginatedHandler<,,>).MakeGenericType(readPaginatedRequest, entity, id);
+            services.AddTransient(requestHandlerInterfaceBound, readPaginatedHandlerBound);
+        }
 
-            foreach (var readSingleRequest in readSingleRequests)
-            {
-                var requestHandlerInterfaceBound = typeof(IRequestHandler<,>).MakeGenericType(readSingleRequest, serviceResponseBound);
-                var readSingleHandlerBound = typeof(ReadSingleHandler<,,>).MakeGenericType(readSingleRequest, entity, id);
-                services.AddTransient(requestHandlerInterfaceBound, readSingleHandlerBound);
-            }
+        private static void AddGenericDelete(IServiceCollection services, Type entity, Type id)
+        {
+            var serviceResponseBound = typeof(ServiceResponse<>).MakeGenericType(id);
+            var deleteRequest = typeof(DeleteRequest<,>).MakeGenericType(entity, id);
+            var requestHandlerInterfaceBound = typeof(IRequestHandler<,>).MakeGenericType(deleteRequest, serviceResponseBound);
+            var deleteHandlerBound = typeof(DeleteHandler<,,>).MakeGenericType(deleteRequest, entity, id);
+            services.AddTransient(requestHandlerInterfaceBound, deleteHandlerBound);
         }
     }
 }
