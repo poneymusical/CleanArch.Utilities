@@ -11,5 +11,6 @@ namespace CleanArch.Utilities.GenericCrud.Repository
         Task<TEntity> FindAsync(TId id);
         Task<TEntity> UpdateAsync(TEntity entity);
         Task<IEnumerable<TEntity>> GetPageAsync(int pageIndex, int pageSize);
+        Task<TId> DeleteAsync(TEntity entity);
     }
 }
