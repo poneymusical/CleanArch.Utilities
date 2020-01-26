@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CleanArch.Utilities.Core.Service;
 using CleanArch.Utilities.GenericCrud.Entities;
 
@@ -9,5 +10,6 @@ namespace CleanArch.Utilities.GenericCrud.Services.ReadPaginated
     {
         int PageIndex { get; set; }
         int PageSize { get; set; }
+        IQueryable<TEntity> AddWhereConditions(IQueryable<TEntity> queryable);
     }
 }

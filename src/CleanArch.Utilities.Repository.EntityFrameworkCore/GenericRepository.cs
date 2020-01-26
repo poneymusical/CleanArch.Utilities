@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CleanArch.Utilities.GenericCrud.Entities;
@@ -36,9 +37,11 @@ namespace CleanArch.Utilities.Repository.EntityFrameworkCore
             return entity;
         }
 
-        public async Task<IEnumerable<TEntity>> GetPageAsync(int pageIndex, int pageSize)
+        public async Task<IEnumerable<TEntity>> GetPageAsync(int pageIndex, int pageSize, Func<IQueryable<TEntity>, IQueryable<TEntity>> where)
         {
-            return await _context.Set<TEntity>().Skip(pageIndex * pageSize).Take(pageSize).ToListAsync();
+            var query = _context.Set<TEntity>().Skip(pageIndex * pageSize);
+            query = where(query);
+            return await query.ToListAsync();
         }
 
         public async Task<TId> DeleteAsync(TEntity entity)
