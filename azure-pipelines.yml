@@ -20,4 +20,4 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration) CleanArch.Utilities.sln
   displayName: 'Build solution'
 - script: dotnet test CleanArch.Utilities.sln
-  displayName: 'Run UTs on generic CRUD'
+  displayName: 'Run UTs'
