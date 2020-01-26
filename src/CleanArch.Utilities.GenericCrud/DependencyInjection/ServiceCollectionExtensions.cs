@@ -31,7 +31,7 @@ namespace CleanArch.Utilities.GenericCrud.DependencyInjection
                 AddGenericCreate(services, assembly, entity, id);
                 AddGenericUpdate(services, assembly, entity, id);
                 AddGenericReadSingle(services, entity, id);
-                AddGenericReadPaginated(services, entity, id);
+                AddGenericReadPaginated(services, assembly, entity, id);
                 AddGenericDelete(services, entity, id);
             }
 
@@ -79,13 +79,20 @@ namespace CleanArch.Utilities.GenericCrud.DependencyInjection
             services.AddTransient(requestHandlerInterfaceBound, readSingleHandlerBound);
         }
 
-        private static void AddGenericReadPaginated(IServiceCollection services, Type entity, Type id)
+        private static void AddGenericReadPaginated(IServiceCollection services, Assembly assembly, Type entity, Type id)
         {
             var serviceResponseBound = typeof(ServiceResponse<>).MakeGenericType(typeof(IEnumerable<>).MakeGenericType(entity));
-            var readPaginatedRequest = typeof(ReadPaginatedRequest<,>).MakeGenericType(entity, id);
-            var requestHandlerInterfaceBound = typeof(IRequestHandler<,>).MakeGenericType(readPaginatedRequest, serviceResponseBound);
-            var readPaginatedHandlerBound = typeof(ReadPaginatedHandler<,,>).MakeGenericType(readPaginatedRequest, entity, id);
-            services.AddTransient(requestHandlerInterfaceBound, readPaginatedHandlerBound);
+            var iReadPaginatedRequestBound = typeof(IReadPaginatedRequest<,>).MakeGenericType(entity, id);
+
+            var readPaginatedRequests = assembly.GetTypes()
+                .Where(type => type.GetInterface(iReadPaginatedRequestBound.Name) != null).ToList();
+
+            foreach(var readPaginatedRequest in readPaginatedRequests)
+            {
+                var requestHandlerInterfaceBound = typeof(IRequestHandler<,>).MakeGenericType(readPaginatedRequest, serviceResponseBound);
+                var readPaginatedHandlerBound = typeof(ReadPaginatedHandler<,,>).MakeGenericType(readPaginatedRequest, entity, id);
+                services.AddTransient(requestHandlerInterfaceBound, readPaginatedHandlerBound);
+            }
         }
 
         private static void AddGenericDelete(IServiceCollection services, Type entity, Type id)
