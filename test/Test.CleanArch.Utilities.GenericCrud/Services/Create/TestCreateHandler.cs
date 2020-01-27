@@ -11,7 +11,6 @@ using Test.CleanArch.Utilities.GenericCrud._TestArtifacts;
 
 namespace Test.CleanArch.Utilities.GenericCrud.Services.Create
 {
-    [TestFixture]
     public class TestCreateHandler
     {
         private readonly IMapper _mapper;
