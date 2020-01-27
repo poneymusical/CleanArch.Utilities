@@ -3,14 +3,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using CleanArch.Utilities.Core.Service;
 using CleanArch.Utilities.GenericCrud.Repository;
-using CleanArch.Utilities.GenericCrud.Services.Delete;
+using CleanArch.Utilities.GenericCrud.Services.ReadSingle;
 using Moq;
 using NUnit.Framework;
 using Test.CleanArch.Utilities.GenericCrud._TestArtifacts;
 
-namespace Test.CleanArch.Utilities.GenericCrud.Services.Delete
+namespace Test.CleanArch.Utilities.GenericCrud.Services.ReadSingle
 {
-    public class TestDeleteHandler
+    public class TestReadSingleHandler
     {
         [Test]
         public async Task Handle_EntityDoesNotExists()
@@ -21,21 +21,18 @@ namespace Test.CleanArch.Utilities.GenericCrud.Services.Delete
                 Value = "test"
             };
 
-            var request = new DeleteRequest<MockEntity, Guid> { Id = entity.Id };
+            var request = new ReadSingleRequest<MockEntity, Guid> { Id = entity.Id };
             var repository = new Mock<IGenericRepository<MockEntity, Guid>>();
             repository.Setup(x => x.FindAsync(entity.Id))
                 .ReturnsAsync((MockEntity)null);
-            repository.Setup(x => x.DeleteAsync(entity))
-                .ReturnsAsync((MockEntity ent) => ent.Id);
 
-            var handler = new DeleteHandler<DeleteRequest<MockEntity, Guid>, MockEntity, Guid>(repository.Object);
+            var handler = new ReadSingleHandler<ReadSingleRequest<MockEntity, Guid>, MockEntity, Guid>(repository.Object);
             var response = await handler.Handle(request, CancellationToken.None);
 
             Assert.AreEqual(ServiceResponseStatus.NotFound, response.Status);
-            Assert.AreEqual(default(Guid), response.Payload);
+            Assert.IsNull(response.Payload);
 
             repository.Verify(x => x.FindAsync(entity.Id), Times.Once);
-            repository.Verify(x => x.DeleteAsync(entity), Times.Never);
         }
 
         [Test]
@@ -47,21 +44,18 @@ namespace Test.CleanArch.Utilities.GenericCrud.Services.Delete
                 Value = "test"
             };
 
-            var request = new DeleteRequest<MockEntity, Guid> { Id = entity.Id };
+            var request = new ReadSingleRequest<MockEntity, Guid> { Id = entity.Id };
             var repository = new Mock<IGenericRepository<MockEntity, Guid>>();
             repository.Setup(x => x.FindAsync(entity.Id))
                 .ReturnsAsync(entity);
-            repository.Setup(x => x.DeleteAsync(entity))
-                .ReturnsAsync((MockEntity ent) => ent.Id);
 
-            var handler = new DeleteHandler<DeleteRequest<MockEntity, Guid>, MockEntity, Guid>(repository.Object);
+            var handler = new ReadSingleHandler<ReadSingleRequest<MockEntity, Guid>, MockEntity, Guid>(repository.Object);
             var response = await handler.Handle(request, CancellationToken.None);
 
             Assert.AreEqual(ServiceResponseStatus.Ok, response.Status);
-            Assert.AreEqual(entity.Id, response.Payload);
+            Assert.AreEqual(entity, response.Payload);
 
             repository.Verify(x => x.FindAsync(entity.Id), Times.Once);
-            repository.Verify(x => x.DeleteAsync(entity), Times.Once);
         }
     }
 }
