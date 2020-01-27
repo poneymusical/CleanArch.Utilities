@@ -17,9 +17,7 @@
     <Compile Remove="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
     <Folder Include="Services\Create\" />
-    <Folder Include="_TestArtifacts\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CleanArch.Utilities.GenericCrud\CleanArch.Utilities.GenericCrud.csproj" />

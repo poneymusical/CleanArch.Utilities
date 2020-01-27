@@ -23,7 +23,7 @@ namespace Test.CleanArch.Utilities.GenericCrud.Services.Create
         }
 
         [Test]
-        public async Task TestCreate()
+        public async Task Handle_Ok()
         {
             var guid = Guid.NewGuid();
             var request = new MockCreateRequest { Value = "test" };
