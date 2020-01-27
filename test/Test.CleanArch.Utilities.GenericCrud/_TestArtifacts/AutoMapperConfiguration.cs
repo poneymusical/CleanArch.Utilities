@@ -7,6 +7,7 @@ namespace Test.CleanArch.Utilities.GenericCrud._TestArtifacts
         public AutoMapperConfiguration()
         {
             CreateMap<MockCreateRequest, MockEntity>();
+            CreateMap<MockUpdateRequest, MockEntity>();
         }
     }
 }

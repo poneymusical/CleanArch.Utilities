@@ -23,9 +23,9 @@ namespace Test.CleanArch.Utilities.GenericCrud.Services.Delete
 
             var request = new DeleteRequest<MockEntity, Guid> { Id = entity.Id };
             var repository = new Mock<IGenericRepository<MockEntity, Guid>>();
-            repository.Setup(x => x.FindAsync(It.Is<Guid>(guid => guid == entity.Id)))
+            repository.Setup(x => x.FindAsync(entity.Id))
                 .ReturnsAsync((MockEntity)null);
-            repository.Setup(x => x.DeleteAsync(It.IsAny<MockEntity>()))
+            repository.Setup(x => x.DeleteAsync(entity))
                 .ReturnsAsync((MockEntity ent) => ent.Id);
 
             var handler = new DeleteHandler<DeleteRequest<MockEntity, Guid>, MockEntity, Guid>(repository.Object);
