@@ -51,6 +51,5 @@ namespace CleanArch.Utilities.DependencyInjection
 
             return services;
         }
-
     }
 }
