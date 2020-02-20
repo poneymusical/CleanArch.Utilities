@@ -26,8 +26,7 @@ namespace CleanArch.Utilities.GenericCrud.Services.Update
             if (entity == null)
                 return new ServiceResponse<TEntity>
                 {
-                    Status = ServiceResponseStatus.NotFound,
-                    Payload = default
+                    Status = ServiceResponseStatus.NotFound
                 };
 
             _mapper.Map(request, entity);

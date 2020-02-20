@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AutoMapper;
 using CleanArch.Utilities.Core.Service;
 using CleanArch.Utilities.GenericCrud.Entities;
 using CleanArch.Utilities.GenericCrud.Services.Create;
@@ -19,8 +18,6 @@ namespace CleanArch.Utilities.GenericCrud.DependencyInjection
     {
         public static IServiceCollection AddGenericCrud(this IServiceCollection services, Assembly assembly)
         {
-            services.AddAutoMapper(assembly);
-
             var entities = assembly.GetTypes()
                 .Where(type => type.GetInterface(typeof(IIdentifiable<>).Name) != null).ToList();
 

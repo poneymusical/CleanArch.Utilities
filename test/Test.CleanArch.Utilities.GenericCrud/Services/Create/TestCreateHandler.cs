@@ -11,7 +11,6 @@ using Test.CleanArch.Utilities.GenericCrud._TestArtifacts;
 
 namespace Test.CleanArch.Utilities.GenericCrud.Services.Create
 {
-    [TestFixture]
     public class TestCreateHandler
     {
         private readonly IMapper _mapper;
@@ -23,7 +22,7 @@ namespace Test.CleanArch.Utilities.GenericCrud.Services.Create
         }
 
         [Test]
-        public async Task TestCreate()
+        public async Task Handle_Ok()
         {
             var guid = Guid.NewGuid();
             var request = new MockCreateRequest { Value = "test" };

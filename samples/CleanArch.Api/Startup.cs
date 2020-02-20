@@ -1,3 +1,5 @@
+using System;
+using AutoMapper;
 using CleanArch.Domain;
 using CleanArch.Repository;
 using CleanArch.Utilities.DependencyInjection;
@@ -39,6 +41,7 @@ namespace CleanArch.Api
             var serviceAssembly = typeof(MyEntity).Assembly;
             services.AddServices(serviceAssembly);
             services.AddGenericCrud(serviceAssembly);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
