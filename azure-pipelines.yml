@@ -1,8 +1,3 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
 - master
 
@@ -21,3 +16,9 @@ steps:
   displayName: 'Build solution'
 - script: dotnet test CleanArch.Utilities.sln
   displayName: 'Run UTs'
+- script: dotnet nuget push -s https://www.nuget.org -k $(NUGETAPIKEY) --skip-duplicate src/CleanArch.Utilities.Core/bin/Release/*.nupkg
+  displayName: 'Push CleanArch.Utilities.Core to nuget.org'
+- script: dotnet nuget push -s https://www.nuget.org -k $(NUGETAPIKEY) --skip-duplicate src/CleanArch.Utilities.DependencyInjection/bin/Release/*.nupkg
+  displayName: 'Push CleanArch.Utilities.DependencyInjection to nuget.org'
+- script: dotnet nuget push -s https://www.nuget.org -k $(NUGETAPIKEY) --skip-duplicate src/CleanArch.Utilities.AspNetCore/bin/Release/*.nupkg
+  displayName: 'Push CleanArch.Utilities.AspNetCore to nuget.org'
