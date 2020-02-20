@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <UserSecretsId>7664309b-f02e-4051-bce9-e53a75199e98</UserSecretsId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Guillaume Dujardin</Authors>
+    <Company>Poney Musical</Company>
   </PropertyGroup>
 
   <ItemGroup>
