@@ -24,11 +24,7 @@ namespace CleanArch.Utilities.GenericCrud.Services.Create
         {
             var entity = _mapper.Map<TEntity>(request);
             await _repository.CreateAsync(entity);
-            return new ServiceResponse<TEntity>
-            {
-                Status = ServiceResponseStatus.Ok,
-                Payload = entity
-            };
+            return ServiceResponse<TEntity>.Ok(entity);
         }
     }
 }

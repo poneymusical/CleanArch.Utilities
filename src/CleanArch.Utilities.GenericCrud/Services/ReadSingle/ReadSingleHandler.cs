@@ -21,17 +21,9 @@ namespace CleanArch.Utilities.GenericCrud.Services.ReadSingle
         {
             var entity = await _repository.FindAsync(request.Id);
             if (entity == null)
-                return new ServiceResponse<TEntity>
-                {
-                    Status = ServiceResponseStatus.NotFound,
-                    Payload = default
-                };
+                return ServiceResponse<TEntity>.NotFound();
 
-            return new ServiceResponse<TEntity>
-            {
-                Status = ServiceResponseStatus.Ok,
-                Payload = entity
-            };
+            return ServiceResponse<TEntity>.Ok(entity);
         }
     }
 }

@@ -30,12 +30,7 @@ namespace CleanArch.Utilities.Core.Validation
                 .ToList();
 
             if (failures.Any())
-                return new ServiceResponse<TResponse>
-                {
-                    Status = ServiceResponseStatus.BadRequest,
-                    ValidationErrors = failures,
-                    Payload = default
-                };
+                return ServiceResponse<TResponse>.BadRequest(failures);
 
             return await next();
         }
