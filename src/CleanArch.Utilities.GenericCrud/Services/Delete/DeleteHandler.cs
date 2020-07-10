@@ -21,18 +21,11 @@ namespace CleanArch.Utilities.GenericCrud.Services.Delete
         {
             var entity = await _repository.FindAsync(request.Id);
             if (entity == null)
-                return new ServiceResponse<TId>
-                {
-                    Status = ServiceResponseStatus.NotFound
-                };
+                return ServiceResponse<TId>.NotFound();
 
             await _repository.DeleteAsync(entity);
 
-            return new ServiceResponse<TId>
-            {
-                Status = ServiceResponseStatus.Ok,
-                Payload = request.Id
-            };
+            return ServiceResponse<TId>.Ok(request.Id);
         }
     }
 }

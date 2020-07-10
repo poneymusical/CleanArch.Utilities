@@ -24,20 +24,13 @@ namespace CleanArch.Utilities.GenericCrud.Services.Update
         {
             var entity = await _repository.FindAsync(request.Id);
             if (entity == null)
-                return new ServiceResponse<TEntity>
-                {
-                    Status = ServiceResponseStatus.NotFound
-                };
+                return ServiceResponse<TEntity>.NotFound();
 
             _mapper.Map(request, entity);
 
             await _repository.UpdateAsync(entity);
 
-            return new ServiceResponse<TEntity>
-            {
-                Status = ServiceResponseStatus.Ok,
-                Payload = entity
-            };
+            return ServiceResponse<TEntity>.Ok(entity);
         }
     }
 }
