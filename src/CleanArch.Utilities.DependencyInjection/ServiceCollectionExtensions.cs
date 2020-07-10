@@ -18,13 +18,14 @@ namespace CleanArch.Utilities.DependencyInjection
             //Check if servicePipelineBehaviorImplementation implements IServicePipelineBehavior
             var iServicePipelineBehavior = typeof(IServicePipelineBehavior<,>);
             if (servicePipelineBehavior.GetInterface(iServicePipelineBehavior.Name) == null)
-                throw new ArgumentException($"{servicePipelineBehavior.FullName} does not implement {iServicePipelineBehavior.FullName}");
+                throw new ArgumentException(
+                    $"{servicePipelineBehavior.FullName} does not implement {iServicePipelineBehavior.FullName}");
 
             //In given assembly, get all types that implement IServiceRequest
             var iServiceRequest = typeof(IServiceRequest<>);
             var requests = assemblyContainingRequests.GetTypes()
                 .Where(type => type.GetInterface(iServiceRequest.Name) != null).ToList();
-            
+
             foreach (var request in requests)
             {
                 //requestType implements IServiceRequest<TResponse> => get TResponse
@@ -37,17 +38,22 @@ namespace CleanArch.Utilities.DependencyInjection
                 var matchingPipelineBehavior = servicePipelineBehavior.MakeGenericType(request, response);
                 //Add to services
                 //Equivalent to AddTransient<IPipelineBehavior<Request,ServiceResponse<Response>>, ServicePipelineBehavior<Request, Response>>
-                services.AddTransient(iPipelineBehavior, matchingPipelineBehavior); 
+                services.AddTransient(iPipelineBehavior, matchingPipelineBehavior);
             }
-            
+
             return services;
         }
 
-        public static IServiceCollection AddServices(this IServiceCollection services, Assembly serviceAssembly)
+        public static IServiceCollection AddServices(this IServiceCollection services, Assembly serviceAssembly) => 
+            services.AddServices(serviceAssembly, typeof(ValidationPipelineBehavior<,>));
+
+        public static IServiceCollection AddServices(this IServiceCollection services, Assembly serviceAssembly,
+            params Type[] pipelineBehaviorTypes)
         {
             services.AddValidatorsFromAssembly(serviceAssembly);
             services.AddMediatR(serviceAssembly);
-            services.AddServicePipelineBehavior(serviceAssembly, typeof(ValidationPipelineBehavior<,>));
+            foreach (var pipelineBehaviorType in pipelineBehaviorTypes)
+                services.AddServicePipelineBehavior(serviceAssembly, pipelineBehaviorType);
 
             return services;
         }
