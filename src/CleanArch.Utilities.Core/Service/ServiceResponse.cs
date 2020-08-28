@@ -9,10 +9,14 @@ namespace CleanArch.Utilities.Core.Service
         public ServiceResponseStatus Status { get; set; }
         public T Payload { get; set; }
 
-        public IEnumerable<ValidationFailure> ValidationErrors { get; set; }
-        public IEnumerable<string> Errors { get; set; }
+        public IEnumerable<ValidationFailure> ValidationErrors { get; set; } = new List<ValidationFailure>();
+        public IEnumerable<string> Errors { get; set; } = new List<string>();
 
         public Exception Exception { get; set; }
+
+        public ServiceResponse()
+        {
+        }
 
         private ServiceResponse(T payload, ServiceResponseStatus status)
         {
