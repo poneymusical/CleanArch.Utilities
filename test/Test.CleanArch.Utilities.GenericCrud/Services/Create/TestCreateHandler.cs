@@ -41,8 +41,8 @@ namespace Test.CleanArch.Utilities.GenericCrud.Services.Create
 
 
             Assert.AreEqual(ServiceResponseStatus.Ok, result.Status);
-            Assert.IsNull(result.ValidationErrors);
-            Assert.IsNull(result.Errors);
+            Assert.IsEmpty(result.ValidationErrors);
+            Assert.IsEmpty(result.Errors);
             Assert.IsNull(result.Exception);
             Assert.AreEqual(request.Value, result.Payload.Value);
             Assert.AreEqual(guid, result.Payload.Id);
