@@ -1,2 +1,2 @@
 # CleanArch.Utilities
-[![develop](https://guhke.visualstudio.com/CleanArch.Utilities/_apis/build/status/poneymusical.CleanArch.Utilities%20develop%20build?branchName=develop)](https://guhke.visualstudio.com/CleanArch.Utilities/_build/latest?definitionId=13&branchName=develop) [![master](https://guhke.visualstudio.com/CleanArch.Utilities/_apis/build/status/poneymusical.CleanArch.Utilities%20develop%20build?branchName=master)](https://guhke.visualstudio.com/CleanArch.Utilities/_build/latest?definitionId=13&branchName=master)
+[![master](https://guhke.visualstudio.com/CleanArch.Utilities/_apis/build/status/poneymusical.CleanArch.Utilities%20develop%20build?branchName=master)](https://guhke.visualstudio.com/CleanArch.Utilities/_build/latest?definitionId=13&branchName=master)
