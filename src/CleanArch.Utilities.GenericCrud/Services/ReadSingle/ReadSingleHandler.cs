@@ -21,9 +21,9 @@ namespace CleanArch.Utilities.GenericCrud.Services.ReadSingle
         {
             var entity = await _repository.FindAsync(request.Id);
             if (entity == null)
-                return ServiceResponse<TEntity>.NotFound();
+                return ServiceResponseFactory.NotFound<TEntity>();
 
-            return ServiceResponse<TEntity>.Ok(entity);
+            return ServiceResponseFactory.Ok(entity);
         }
     }
 }

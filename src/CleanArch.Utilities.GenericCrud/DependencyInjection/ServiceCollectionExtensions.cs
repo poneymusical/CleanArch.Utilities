@@ -94,7 +94,7 @@ namespace CleanArch.Utilities.GenericCrud.DependencyInjection
 
         private static void AddGenericDelete(IServiceCollection services, Type entity, Type id)
         {
-            var serviceResponseBound = typeof(ServiceResponse<>).MakeGenericType(id);
+            var serviceResponseBound = typeof(ServiceResponse);
             var deleteRequest = typeof(DeleteRequest<,>).MakeGenericType(entity, id);
             var requestHandlerInterfaceBound = typeof(IRequestHandler<,>).MakeGenericType(deleteRequest, serviceResponseBound);
             var deleteHandlerBound = typeof(DeleteHandler<,,>).MakeGenericType(deleteRequest, entity, id);
