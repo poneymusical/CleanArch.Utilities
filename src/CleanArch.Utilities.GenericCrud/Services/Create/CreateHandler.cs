@@ -4,6 +4,7 @@ using AutoMapper;
 using CleanArch.Utilities.Core.Service;
 using CleanArch.Utilities.GenericCrud.Entities;
 using CleanArch.Utilities.GenericCrud.Repository;
+using MediatR;
 
 namespace CleanArch.Utilities.GenericCrud.Services.Create
 {
@@ -24,7 +25,7 @@ namespace CleanArch.Utilities.GenericCrud.Services.Create
         {
             var entity = _mapper.Map<TEntity>(request);
             await _repository.CreateAsync(entity);
-            return ServiceResponse<TEntity>.Ok(entity);
+            return ServiceResponseFactory.Ok(entity);
         }
     }
 }

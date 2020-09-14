@@ -6,7 +6,7 @@ using CleanArch.Utilities.GenericCrud.Repository;
 
 namespace CleanArch.Utilities.GenericCrud.Services.Delete
 {
-    public class DeleteHandler<TRequest, TEntity, TId> : IServiceRequestHandler<TRequest, TId>
+    public class DeleteHandler<TRequest, TEntity, TId> : IServiceRequestHandler<TRequest>
         where TRequest : IDeleteRequest<TEntity, TId>
         where TEntity : class, IIdentifiable<TId>
     {
@@ -17,15 +17,15 @@ namespace CleanArch.Utilities.GenericCrud.Services.Delete
             _repository = repository;
         }
 
-        public async Task<ServiceResponse<TId>> Handle(TRequest request, CancellationToken cancellationToken)
+        public async Task<ServiceResponse> Handle(TRequest request, CancellationToken cancellationToken)
         {
             var entity = await _repository.FindAsync(request.Id);
             if (entity == null)
-                return ServiceResponse<TId>.NotFound();
+                return ServiceResponseFactory.NotFound();
 
             await _repository.DeleteAsync(entity);
 
-            return ServiceResponse<TId>.Ok(request.Id);
+            return ServiceResponseFactory.Ok();
         }
     }
 }

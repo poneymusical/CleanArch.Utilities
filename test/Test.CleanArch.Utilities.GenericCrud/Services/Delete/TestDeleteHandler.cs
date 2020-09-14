@@ -32,7 +32,6 @@ namespace Test.CleanArch.Utilities.GenericCrud.Services.Delete
             var response = await handler.Handle(request, CancellationToken.None);
 
             Assert.AreEqual(ServiceResponseStatus.NotFound, response.Status);
-            Assert.AreEqual(default(Guid), response.Payload);
 
             repository.Verify(x => x.FindAsync(entity.Id), Times.Once);
             repository.Verify(x => x.DeleteAsync(entity), Times.Never);
@@ -58,7 +57,6 @@ namespace Test.CleanArch.Utilities.GenericCrud.Services.Delete
             var response = await handler.Handle(request, CancellationToken.None);
 
             Assert.AreEqual(ServiceResponseStatus.Ok, response.Status);
-            Assert.AreEqual(entity.Id, response.Payload);
 
             repository.Verify(x => x.FindAsync(entity.Id), Times.Once);
             repository.Verify(x => x.DeleteAsync(entity), Times.Once);

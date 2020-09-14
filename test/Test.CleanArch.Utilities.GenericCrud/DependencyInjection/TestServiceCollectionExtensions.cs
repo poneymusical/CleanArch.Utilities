@@ -30,7 +30,7 @@ namespace Test.CleanArch.Utilities.GenericCrud.DependencyInjection
             Assert.IsNotNull(createHandlerServiceDescriptor);
             Assert.AreEqual(typeof(CreateHandler<MockCreateRequest, MockEntity, Guid>), createHandlerServiceDescriptor.ImplementationType);
 
-            var deleteHandlerServiceDescriptor = services.FirstOrDefault(s => s.ServiceType == typeof(IRequestHandler<DeleteRequest<MockEntity, Guid>, ServiceResponse<Guid>>));
+            var deleteHandlerServiceDescriptor = services.FirstOrDefault(s => s.ServiceType == typeof(IRequestHandler<DeleteRequest<MockEntity, Guid>, ServiceResponse>));
             Assert.IsNotNull(deleteHandlerServiceDescriptor);
             Assert.AreEqual(typeof(DeleteHandler<DeleteRequest<MockEntity, Guid>, MockEntity, Guid>), deleteHandlerServiceDescriptor.ImplementationType);
 
