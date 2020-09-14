@@ -21,7 +21,7 @@ namespace CleanArch.Utilities.GenericCrud.Services.ReadPaginated
         public async Task<ServiceResponse<IEnumerable<TEntity>>> Handle(TRequest request, CancellationToken cancellationToken)
         {
             var results = await _repository.GetPageAsync(request.PageIndex, request.PageSize, request.AddWhereConditions);
-            return ServiceResponse<IEnumerable<TEntity>>.Ok(results);
+            return ServiceResponseFactory.Ok(results);
         }
     }
 }

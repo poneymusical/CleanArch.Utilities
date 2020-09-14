@@ -6,4 +6,9 @@ namespace CleanArch.Utilities.Core.Service
         where TRequest : IServiceRequest<TResponse>
     {
     }
+
+    public interface IServiceRequestHandler<in TRequest> : IRequestHandler<TRequest, ServiceResponse>
+        where TRequest : IServiceRequest
+    {
+    }
 }

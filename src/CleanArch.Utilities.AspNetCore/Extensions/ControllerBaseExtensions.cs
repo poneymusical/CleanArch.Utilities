@@ -5,7 +5,7 @@ namespace CleanArch.Utilities.AspNetCore.Extensions
 {
     public static class ControllerBaseExtensions
     {
-        public static IActionResult FromServiceResponseStatus<T>(this ControllerBase controllerBase, ServiceResponse<T> serviceResponse)
+        public static IActionResult FromServiceResponseStatus(this ControllerBase controllerBase, ServiceResponse serviceResponse)
             => controllerBase.StatusCode((int) serviceResponse.Status.ToHttpStatusCode(), serviceResponse);
     } 
 }
