@@ -13,7 +13,9 @@ namespace CleanArch.Utilities.DependencyInjection
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddServices(this IServiceCollection services, Assembly serviceAssembly) =>
-            services.AddServices(serviceAssembly, typeof(ValidationPipelineBehavior<,>));
+            services.AddServices(serviceAssembly, 
+                typeof(ValidationPipelineBehavior<>), 
+                typeof(ValidationPipelineBehavior<,>));
 
         public static IServiceCollection AddServices(this IServiceCollection services, Assembly serviceAssembly,
             params Type[] pipelineBehaviorTypes)

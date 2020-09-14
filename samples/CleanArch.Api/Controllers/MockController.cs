@@ -25,7 +25,7 @@ namespace CleanArch.Api.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var request = new ReadSingleRequest<MyEntity, int> { Id = id };
-            var response = await _mediator.Send(request);
+            var response = await _mediator.Send<ServiceResponse<MyEntity>>(request);
             return this.FromServiceResponseStatus(response);
         }
 
@@ -40,14 +40,14 @@ namespace CleanArch.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] MyEntityCreateRequest request)
         {
-            var response = await _mediator.Send(request);
+            var response = await _mediator.Send<ServiceResponse<MyEntity>>(request);
             return this.FromServiceResponseStatus(response);
         }
 
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] MyEntityUpdateRequest request)
         {
-            var response = await _mediator.Send(request);
+            var response = await _mediator.Send<ServiceResponse<MyEntity>>(request);
             return this.FromServiceResponseStatus(response);
         }
 

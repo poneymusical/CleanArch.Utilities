@@ -10,27 +10,34 @@ using MediatR;
 
 namespace CleanArch.Utilities.Core.Validation
 {
-    public class ValidationPipelineBehavior<TRequest, TResponse> 
-        : IServicePipelineBehavior<TRequest, TResponse>, IServicePipelineBehavior<TRequest>
-        where TRequest : IServiceRequest<TResponse>, IServiceRequest
+    public abstract class BaseValidationPipelineBehavior<TRequest>
     {
-        private readonly IEnumerable<IValidator<TRequest>> _validators;
+        protected readonly IEnumerable<IValidator<TRequest>> Validators;
 
-        public ValidationPipelineBehavior(IEnumerable<IValidator<TRequest>> validators)
+        protected BaseValidationPipelineBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
-            _validators = validators;
+            Validators = validators;
         }
 
-        async Task<ServiceResponse<TResponse>> IPipelineBehavior<TRequest, ServiceResponse<TResponse>>.Handle(
-            TRequest request,
-            CancellationToken cancellationToken,
-            RequestHandlerDelegate<ServiceResponse<TResponse>> next)
+        protected List<ValidationFailure> GetValidationFailures(TRequest request)
         {
-            var failures = GetValidationFailures(request);
-            if (failures.Any())
-                return ServiceResponseFactory.BadRequest<TResponse>(failures);
+            var validationContext = new ValidationContext(request);
 
-            return await next();
+            return Validators
+                .Select(validator => validator.Validate(validationContext))
+                .SelectMany(validationResult => validationResult.Errors)
+                .Where(validationFailure => validationFailure != null)
+                .ToList();
+        }
+    }
+
+    public class ValidationPipelineBehavior<TRequest> : BaseValidationPipelineBehavior<TRequest>,
+        IServicePipelineBehavior<TRequest>
+        where TRequest : IServiceRequest
+    {
+        public ValidationPipelineBehavior(IEnumerable<IValidator<TRequest>> validators)
+            : base(validators)
+        {
         }
 
         async Task<ServiceResponse> IPipelineBehavior<TRequest, ServiceResponse>.Handle(
@@ -44,16 +51,25 @@ namespace CleanArch.Utilities.Core.Validation
 
             return await next();
         }
+    }
 
-        private List<ValidationFailure> GetValidationFailures(TRequest request)
+    public class ValidationPipelineBehavior<TRequest, TResponse> : BaseValidationPipelineBehavior<TRequest>, 
+        IServicePipelineBehavior<TRequest, TResponse>
+        where TRequest : IServiceRequest<TResponse>
+    {
+        public ValidationPipelineBehavior(IEnumerable<IValidator<TRequest>> validators) 
+            : base(validators) { }
+        
+        async Task<ServiceResponse<TResponse>> IPipelineBehavior<TRequest, ServiceResponse<TResponse>>.Handle(
+            TRequest request,
+            CancellationToken cancellationToken,
+            RequestHandlerDelegate<ServiceResponse<TResponse>> next)
         {
-            var validationContext = new ValidationContext(request);
+            var failures = GetValidationFailures(request);
+            if (failures.Any())
+                return ServiceResponseFactory.BadRequest<TResponse>(failures);
 
-            return _validators
-                .Select(validator => validator.Validate(validationContext))
-                .SelectMany(validationResult => validationResult.Errors)
-                .Where(validationFailure => validationFailure != null)
-                .ToList();
+            return await next();
         }
     }
 }
