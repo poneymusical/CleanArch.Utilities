@@ -43,6 +43,9 @@ namespace CleanArch.Utilities.Core.Service
         public static ServiceResponse<T> Conflict<T>() =>
             new ServiceResponse<T>(default, ServiceResponseStatus.Conflict);
 
+        public static ServiceResponse<T> Conflict<T>(T conflicting) =>
+            new ServiceResponse<T>(conflicting, ServiceResponseStatus.Conflict);
+        
         public static ServiceResponse<T> Forbidden<T>() =>
             new ServiceResponse<T>(default, ServiceResponseStatus.Forbidden);
 
