@@ -79,12 +79,12 @@ namespace CleanArch.Utilities.DependencyInjection
             var requests = assemblyContainingRequests.GetTypes()
                 .Where(type => type.GetInterface(iServiceRequest.Name) != null).ToList();
 
-            var serviceResponse = typeof(ServiceResponse<>);
+            var serviceResponse = typeof(ServiceResponse);
 
             foreach (var request in requests)
             {
                 var iPipelineBehavior = typeof(IPipelineBehavior<,>).MakeGenericType(request, serviceResponse);
-                var matchingPipelineBehavior = servicePipelineBehavior.MakeGenericType(request, serviceResponse);
+                var matchingPipelineBehavior = servicePipelineBehavior.MakeGenericType(request);
                 services.AddTransient(iPipelineBehavior, matchingPipelineBehavior);
             }
 
