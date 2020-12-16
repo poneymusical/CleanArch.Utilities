@@ -15,7 +15,13 @@ namespace CleanArch.Utilities.Core.Service
         public static ServiceResponse BadRequest(IEnumerable<ValidationFailure> validationErrors) =>
             new ServiceResponse(ServiceResponseStatus.BadRequest) { ValidationErrors = validationErrors };
 
+        public static ServiceResponse BadRequest(params ValidationFailure[] validationErrors) =>
+            new ServiceResponse(ServiceResponseStatus.BadRequest) { ValidationErrors = validationErrors };
+
         public static ServiceResponse BadRequest(IEnumerable<string> errors) =>
+            new ServiceResponse(ServiceResponseStatus.BadRequest) { Errors = errors };
+        
+        public static ServiceResponse BadRequest(params string[] errors) =>
             new ServiceResponse(ServiceResponseStatus.BadRequest) { Errors = errors };
 
         public static ServiceResponse Conflict() =>
@@ -36,8 +42,14 @@ namespace CleanArch.Utilities.Core.Service
 
         public static ServiceResponse<T> BadRequest<T>(IEnumerable<ValidationFailure> validationErrors) =>
             new ServiceResponse<T>(default, ServiceResponseStatus.BadRequest) { ValidationErrors = validationErrors };
+        
+        public static ServiceResponse<T> BadRequest<T>(params ValidationFailure[] validationErrors) =>
+            new ServiceResponse<T>(default, ServiceResponseStatus.BadRequest) { ValidationErrors = validationErrors };
 
         public static ServiceResponse<T> BadRequest<T>(IEnumerable<string> errors) =>
+            new ServiceResponse<T>(default, ServiceResponseStatus.BadRequest) { Errors = errors };
+        
+        public static ServiceResponse<T> BadRequest<T>(params string[] errors) =>
             new ServiceResponse<T>(default, ServiceResponseStatus.BadRequest) { Errors = errors };
 
         public static ServiceResponse<T> Conflict<T>() =>
