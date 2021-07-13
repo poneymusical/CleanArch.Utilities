@@ -30,6 +30,9 @@ namespace CleanArch.Utilities.Core.Service
         public static ServiceResponse Forbidden() =>
             new ServiceResponse(ServiceResponseStatus.Forbidden);
 
+        public static ServiceResponse Unauthorized() =>
+            new ServiceResponse(ServiceResponseStatus.Unauthorized);
+        
         public static ServiceResponse UnknownError(Exception exception) =>
             new ServiceResponse(exception);
         
@@ -61,6 +64,9 @@ namespace CleanArch.Utilities.Core.Service
         public static ServiceResponse<T> Forbidden<T>() =>
             new ServiceResponse<T>(default, ServiceResponseStatus.Forbidden);
 
+        public static ServiceResponse<T> Unauthorized<T>() =>
+            new ServiceResponse<T>(default, ServiceResponseStatus.Unauthorized);
+        
         public static ServiceResponse<T> UnknownError<T>(Exception exception) =>
             new ServiceResponse<T>(exception);
     }
