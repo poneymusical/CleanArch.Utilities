@@ -7,6 +7,7 @@
         BadRequest,
         Conflict,
         Forbidden,
+        Unauthorized,
         UnknownError
     }
 }
