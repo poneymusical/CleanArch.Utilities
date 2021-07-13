@@ -20,6 +20,8 @@ namespace CleanArch.Utilities.AspNetCore.Extensions
                     return System.Net.HttpStatusCode.Conflict;
                 case ServiceResponseStatus.UnknownError:
                     return System.Net.HttpStatusCode.InternalServerError;
+                case ServiceResponseStatus.Unauthorized:
+                    return System.Net.HttpStatusCode.Unauthorized;
                 case ServiceResponseStatus.Forbidden:
                     return System.Net.HttpStatusCode.Forbidden;
                 default:
