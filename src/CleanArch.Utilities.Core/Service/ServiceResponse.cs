@@ -23,6 +23,9 @@ namespace CleanArch.Utilities.Core.Service
             Exception = exception;
             Status = ServiceResponseStatus.UnknownError;
         }
+
+        public static implicit operator T(ServiceResponse<T> serviceResponse) => serviceResponse.Payload;
+        public static explicit operator ServiceResponse<T>(T payload) => ServiceResponseFactory.Ok(payload);
     }
 
     public class ServiceResponse
