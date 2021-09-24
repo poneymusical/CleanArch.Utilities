@@ -10,10 +10,10 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "nuget"
-      directory: "/src/CleanArch.Utilities.AspNetCore"
-      schedule:
-        interval: "daily"
+    directory: "/src/CleanArch.Utilities.AspNetCore"
+    schedule:
+      interval: "daily"
   - package-ecosystem: "nuget"
-        directory: "/src/CleanArch.Utilities.DependencyInjection"
-        schedule:
-          interval: "daily"
+    directory: "/src/CleanArch.Utilities.DependencyInjection"
+    schedule:
+      interval: "daily"
