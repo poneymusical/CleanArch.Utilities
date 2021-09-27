@@ -21,7 +21,7 @@ namespace CleanArch.Utilities.Core.Validation
 
         protected List<ValidationFailure> GetValidationFailures(TRequest request)
         {
-            var validationContext = new ValidationContext(request);
+            var validationContext = new ValidationContext<TRequest>(request);
 
             return Validators
                 .Select(validator => validator.Validate(validationContext))
