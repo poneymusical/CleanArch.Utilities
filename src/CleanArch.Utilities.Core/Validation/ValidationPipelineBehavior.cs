@@ -12,18 +12,18 @@ namespace CleanArch.Utilities.Core.Validation
 {
     public abstract class BaseValidationPipelineBehavior<TRequest>
     {
-        protected readonly IEnumerable<IValidator<TRequest>> Validators;
+        private readonly IEnumerable<IValidator<TRequest>> _validators;
 
         protected BaseValidationPipelineBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
-            Validators = validators;
+            _validators = validators;
         }
 
         protected List<ValidationFailure> GetValidationFailures(TRequest request)
         {
             var validationContext = new ValidationContext<TRequest>(request);
 
-            return Validators
+            return _validators
                 .Select(validator => validator.Validate(validationContext))
                 .SelectMany(validationResult => validationResult.Errors)
                 .Where(validationFailure => validationFailure != null)
