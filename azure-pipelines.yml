@@ -13,8 +13,27 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration) CleanArch.Utilities.sln
   displayName: 'Build solution'
 
-- script: dotnet test CleanArch.Utilities.sln
+- script: dotnet test CleanArch.Utilities.sln --collect "XPlat Code Coverage" --logger trx
   displayName: 'Run UTs'
+
+- task: PublishTestResults@2
+  displayName: 'Publish unit tests execution results'
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/*.trx'
+
+- task: reportgenerator@4
+  displayName: 'Generate code coverage report'
+  inputs:
+    reports: '$(Build.SourcesDirectory)/**/*.cobertura.xml'
+    targetdir: '$(Build.SourcesDirectory)/CoverageResults'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage results'
+  inputs:
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: '$(Build.SourcesDirectory)/CoverageResults/Cobertura.xml'
+    failIfCoverageEmpty: false
 
 - script: dotnet nuget push -s https://www.nuget.org -k $(NUGETAPIKEY) --skip-duplicate src/CleanArch.Utilities.Core/bin/Release/*.nupkg
   displayName: 'Push CleanArch.Utilities.Core to nuget.org'
