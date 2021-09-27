@@ -9,11 +9,11 @@ namespace CleanArch.Utilities.AspNetCore.Extensions
             ServiceResponse serviceResponse, bool includeServiceResponseInBody = true)
             => includeServiceResponseInBody 
                 ? controllerBase.StatusCode(serviceResponse.Status.ToHttpStatusCode(), serviceResponse)
-                : (IActionResult) controllerBase.StatusCode(serviceResponse.Status.ToHttpStatusCode());
+                : controllerBase.StatusCode(serviceResponse.Status.ToHttpStatusCode());
 
         public static IActionResult FromServiceResponseStatus<T>(this ControllerBase controllerBase,
             ServiceResponse<T> serviceResponse, bool includePayloadOnly = false)
             => controllerBase.StatusCode(serviceResponse.Status.ToHttpStatusCode(),
-                includePayloadOnly ? serviceResponse.Payload : (object) serviceResponse);
+                includePayloadOnly ? serviceResponse.Payload : serviceResponse);
     }
 }

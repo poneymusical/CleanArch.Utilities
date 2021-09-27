@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_UnitTests", "_UnitTests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.CleanArch.Utilities.Core", "test\Test.CleanArch.Utilities.Core\Test.CleanArch.Utilities.Core.csproj", "{B5CEFF06-9B25-4464-8830-11D3619B5639}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.CleanArch.Utilities.AspNetCore", "test\Test.CleanArch.Utilities.AspNetCore\Test.CleanArch.Utilities.AspNetCore.csproj", "{37B071E6-E55C-46A1-8F86-E2376E182247}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,12 +36,17 @@ Global
 		{B5CEFF06-9B25-4464-8830-11D3619B5639}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5CEFF06-9B25-4464-8830-11D3619B5639}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5CEFF06-9B25-4464-8830-11D3619B5639}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37B071E6-E55C-46A1-8F86-E2376E182247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37B071E6-E55C-46A1-8F86-E2376E182247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37B071E6-E55C-46A1-8F86-E2376E182247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37B071E6-E55C-46A1-8F86-E2376E182247}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B5CEFF06-9B25-4464-8830-11D3619B5639} = {519C1EA3-EAFB-4CB2-A403-1A0864A1C090}
+		{37B071E6-E55C-46A1-8F86-E2376E182247} = {519C1EA3-EAFB-4CB2-A403-1A0864A1C090}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F00D233-C812-4093-97E1-F488CF066577}
