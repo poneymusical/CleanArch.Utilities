@@ -26,8 +26,4 @@
       <ProjectReference Include="..\..\src\CleanArch.Utilities.Core\CleanArch.Utilities.Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Validation" />
-    </ItemGroup>
-
 </Project>
