@@ -56,7 +56,7 @@ namespace CleanArch.Utilities.DependencyInjection
 
             foreach (var request in requests)
             {
-                var response = request.GetInterface(iServiceRequest.Name).GenericTypeArguments[0];
+                var response = request.GetInterface(iServiceRequest.Name)!.GenericTypeArguments[0];
                 var serviceResponse = typeof(ServiceResponse<>).MakeGenericType(response);
                 var iPipelineBehavior = typeof(IPipelineBehavior<,>).MakeGenericType(request, serviceResponse);
                 var matchingPipelineBehavior = servicePipelineBehavior.MakeGenericType(request, response);
