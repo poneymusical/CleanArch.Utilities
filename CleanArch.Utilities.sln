@@ -6,11 +6,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArch.Utilities.Core", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArch.Utilities.DependencyInjection", "src\CleanArch.Utilities.DependencyInjection\CleanArch.Utilities.DependencyInjection.csproj", "{C1C3BA8E-8780-4FF0-8887-54995A306D6A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{F5771ADA-B217-40C5-8EDD-D2A1150D58B5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArch.Utilities.AspNetCore", "src\CleanArch.Utilities.AspNetCore\CleanArch.Utilities.AspNetCore.csproj", "{E1B39DDA-3398-4D0B-9667-1ABA27C4E606}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit tests", "Unit tests", "{519C1EA3-EAFB-4CB2-A403-1A0864A1C090}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_UnitTests", "_UnitTests", "{519C1EA3-EAFB-4CB2-A403-1A0864A1C090}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

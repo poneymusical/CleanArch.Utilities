@@ -1,29 +1,29 @@
 ﻿using System;
-using System.Net;
 using CleanArch.Utilities.Core.Service;
+using Microsoft.AspNetCore.Http;
 
 namespace CleanArch.Utilities.AspNetCore.Extensions
 {
     public static class ServiceResponseStatusExtensions
     {
-        public static HttpStatusCode ToHttpStatusCode(this ServiceResponseStatus serviceResponseStatus)
+        public static int ToHttpStatusCode(this ServiceResponseStatus serviceResponseStatus)
         {
             switch (serviceResponseStatus)
             {
                 case ServiceResponseStatus.Ok:
-                    return System.Net.HttpStatusCode.OK;
+                    return StatusCodes.Status200OK;
                 case ServiceResponseStatus.NotFound:
-                    return System.Net.HttpStatusCode.NotFound;
+                    return StatusCodes.Status404NotFound;
                 case ServiceResponseStatus.BadRequest:
-                    return System.Net.HttpStatusCode.BadRequest;
+                    return StatusCodes.Status400BadRequest;
                 case ServiceResponseStatus.Conflict:
-                    return System.Net.HttpStatusCode.Conflict;
+                    return StatusCodes.Status409Conflict;
                 case ServiceResponseStatus.UnknownError:
-                    return System.Net.HttpStatusCode.InternalServerError;
+                    return StatusCodes.Status500InternalServerError;
                 case ServiceResponseStatus.Unauthorized:
-                    return System.Net.HttpStatusCode.Unauthorized;
+                    return StatusCodes.Status401Unauthorized;
                 case ServiceResponseStatus.Forbidden:
-                    return System.Net.HttpStatusCode.Forbidden;
+                    return StatusCodes.Status403Forbidden;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(serviceResponseStatus), serviceResponseStatus, null);
             }
