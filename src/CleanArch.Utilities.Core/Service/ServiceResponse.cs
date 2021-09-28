@@ -25,7 +25,7 @@ namespace CleanArch.Utilities.Core.Service
         }
 
         public static implicit operator T(ServiceResponse<T> serviceResponse) => serviceResponse.Payload;
-        public static explicit operator ServiceResponse<T>(T payload) => ServiceResponseFactory.Ok(payload);
+        public static implicit operator ServiceResponse<T>(T payload) => ServiceResponseFactory.Ok(payload);
     }
 
     public class ServiceResponse

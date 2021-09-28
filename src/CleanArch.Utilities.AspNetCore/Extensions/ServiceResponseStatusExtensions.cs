@@ -1,32 +1,22 @@
 ﻿using System;
-using System.Net;
 using CleanArch.Utilities.Core.Service;
+using Microsoft.AspNetCore.Http;
 
 namespace CleanArch.Utilities.AspNetCore.Extensions
 {
     public static class ServiceResponseStatusExtensions
     {
-        public static HttpStatusCode ToHttpStatusCode(this ServiceResponseStatus serviceResponseStatus)
-        {
-            switch (serviceResponseStatus)
+        public static int ToHttpStatusCode(this ServiceResponseStatus serviceResponseStatus) =>
+            serviceResponseStatus switch
             {
-                case ServiceResponseStatus.Ok:
-                    return System.Net.HttpStatusCode.OK;
-                case ServiceResponseStatus.NotFound:
-                    return System.Net.HttpStatusCode.NotFound;
-                case ServiceResponseStatus.BadRequest:
-                    return System.Net.HttpStatusCode.BadRequest;
-                case ServiceResponseStatus.Conflict:
-                    return System.Net.HttpStatusCode.Conflict;
-                case ServiceResponseStatus.UnknownError:
-                    return System.Net.HttpStatusCode.InternalServerError;
-                case ServiceResponseStatus.Unauthorized:
-                    return System.Net.HttpStatusCode.Unauthorized;
-                case ServiceResponseStatus.Forbidden:
-                    return System.Net.HttpStatusCode.Forbidden;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(serviceResponseStatus), serviceResponseStatus, null);
-            }
-        }  
+                ServiceResponseStatus.Ok => StatusCodes.Status200OK,
+                ServiceResponseStatus.NotFound => StatusCodes.Status404NotFound,
+                ServiceResponseStatus.BadRequest => StatusCodes.Status400BadRequest,
+                ServiceResponseStatus.Conflict => StatusCodes.Status409Conflict,
+                ServiceResponseStatus.UnknownError => StatusCodes.Status500InternalServerError,
+                ServiceResponseStatus.Unauthorized => StatusCodes.Status401Unauthorized,
+                ServiceResponseStatus.Forbidden => StatusCodes.Status403Forbidden,
+                _ => throw new ArgumentOutOfRangeException(nameof(serviceResponseStatus), serviceResponseStatus, null)
+            };
     }
 }
