@@ -2,11 +2,9 @@
 using System.Linq;
 using System.Reflection;
 using CleanArch.Utilities.Core.PipelineBehavior;
-using CleanArch.Utilities.Core.Service;
 using CleanArch.Utilities.Core.Validation;
 using FluentValidation;
 using MediatR;
-using MediatR.Registration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArch.Utilities.DependencyInjection
@@ -32,20 +30,23 @@ namespace CleanArch.Utilities.DependencyInjection
         public static IServiceCollection AddServicePipelineBehavior<TPipelineBehavior>(this IServiceCollection services,
             Assembly assemblyContainingRequests) =>
             services.AddServicePipelineBehavior(assemblyContainingRequests, typeof(TPipelineBehavior));
+        
 
         public static IServiceCollection AddServicePipelineBehavior(this IServiceCollection services,
             Assembly assemblyContainingRequests, Type servicePipelineBehavior)
         {
             if (servicePipelineBehavior.ImplementsInterface(typeof(IServicePipelineBehavior<,>)))
-                services.AddBehaviorForGenericIServiceRequest(assemblyContainingRequests, servicePipelineBehavior);
+                if (servicePipelineBehavior.IsGenericType)
+                    services.AddGenericBehaviorForAllGenericRequestsInAssembly(assemblyContainingRequests, servicePipelineBehavior);
+                else
+                    services.AddClosedBehaviorForGenericRequestsThatItImplements(servicePipelineBehavior);
 
             if (servicePipelineBehavior.ImplementsInterface(typeof(IServicePipelineBehavior<>)))
-                if (servicePipelineBehavior.IsOpenGeneric())
+                if (servicePipelineBehavior.IsGenericType)
                     services.AddGenericBehaviorForAllClosedRequestsInAssembly(assemblyContainingRequests, servicePipelineBehavior);
                 else
                     services.AddClosedBehaviorForClosedRequestsThatItImplements(servicePipelineBehavior);
-                    
-
+            
             return services;
         }
 
@@ -54,27 +55,6 @@ namespace CleanArch.Utilities.DependencyInjection
             return type.GetInterfaces()
                 .Select(i => interfaceType.IsGenericType ? i.GetGenericTypeDefinition() : i)
                 .Any(currentInterface => currentInterface.GetGenericTypeDefinition().Name == interfaceType.Name);
-        }
-        
-        private static void AddBehaviorForGenericIServiceRequest(this IServiceCollection services,
-            Assembly assemblyContainingRequests, Type servicePipelineBehavior)
-        {
-            var iServiceRequest = typeof(IServiceRequest<>);
-            var requests = assemblyContainingRequests.GetTypes()
-                .Where(type => type.GetInterface(iServiceRequest.Name) != null).ToList();
-            foreach (var request in requests) 
-                services.BindPipelineBehaviorToGenericRequest(servicePipelineBehavior, request);
-        }
-
-        private static void BindPipelineBehaviorToGenericRequest(this IServiceCollection services, Type servicePipelineBehavior, Type request)
-        {
-            var response = request.GetInterface(typeof(IServiceRequest<>).Name)!.GenericTypeArguments[0];
-            var serviceResponse = typeof(ServiceResponse<>).MakeGenericType(response);
-            var iPipelineBehavior = typeof(IPipelineBehavior<,>).MakeGenericType(request, serviceResponse);
-            var matchingPipelineBehavior = servicePipelineBehavior.IsOpenGeneric()
-                ? servicePipelineBehavior.MakeGenericType(request, response)
-                : servicePipelineBehavior;
-            services.AddTransient(iPipelineBehavior, matchingPipelineBehavior);
         }
     }
 }

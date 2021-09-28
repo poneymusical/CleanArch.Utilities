@@ -5,22 +5,23 @@ using System.Reflection;
 using CleanArch.Utilities.Core.PipelineBehavior;
 using CleanArch.Utilities.Core.Service;
 using MediatR;
-using MediatR.Registration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArch.Utilities.DependencyInjection
 {
-    internal static class ClosedPipelineBehaviorServiceCollectionExtensions
+    internal static class ClosedRequestsServiceCollectionExtensions
     {
         internal static void AddGenericBehaviorForAllClosedRequestsInAssembly(this IServiceCollection services,
             Assembly assemblyContainingRequests, Type servicePipelineBehavior)
         {
-            var requests = assemblyContainingRequests.GetTypes().Where(type => type.GetInterface(nameof(IServiceRequest)) != null).ToList();
+            var requests = assemblyContainingRequests.GetTypes()
+                .Where(type => type.GetInterface(nameof(IServiceRequest)) != null).ToList();
             foreach (var request in requests) 
                 services.BindPipelineBehaviorToClosedRequest(servicePipelineBehavior, request);
         }
         
-        internal static void AddClosedBehaviorForClosedRequestsThatItImplements(this IServiceCollection services, Type servicePipelineBehavior)
+        internal static void AddClosedBehaviorForClosedRequestsThatItImplements(this IServiceCollection services, 
+            Type servicePipelineBehavior)
         {
             var requests = GetImplementedClosedRequests(servicePipelineBehavior);
             foreach (var request in requests)
@@ -36,7 +37,7 @@ namespace CleanArch.Utilities.DependencyInjection
         private static void BindPipelineBehaviorToClosedRequest(this IServiceCollection services, Type servicePipelineBehavior, Type request)
         {
             var iPipelineBehavior = typeof(IPipelineBehavior<,>).MakeGenericType(request, typeof(ServiceResponse));
-            var matchingPipelineBehavior = servicePipelineBehavior.IsOpenGeneric()
+            var matchingPipelineBehavior = servicePipelineBehavior.IsGenericType
                 ? servicePipelineBehavior.MakeGenericType(request)
                 : servicePipelineBehavior;
             services.AddTransient(iPipelineBehavior, matchingPipelineBehavior);

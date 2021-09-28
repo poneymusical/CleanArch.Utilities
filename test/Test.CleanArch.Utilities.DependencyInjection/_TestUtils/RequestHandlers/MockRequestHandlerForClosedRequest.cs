@@ -5,7 +5,7 @@ using Test.CleanArch.Utilities.DependencyInjection._TestUtils.Requests;
 
 namespace Test.CleanArch.Utilities.DependencyInjection._TestUtils.RequestHandlers
 {
-    public class MockClosedServiceRequestHandler : IServiceRequestHandler<MockClosedServiceRequest>
+    public class MockRequestHandlerForClosedRequest : IServiceRequestHandler<MockClosedServiceRequest>
     {
         public Task<ServiceResponse> Handle(MockClosedServiceRequest request, CancellationToken cancellationToken)
         {
