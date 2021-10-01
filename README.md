@@ -17,6 +17,14 @@ Two smaller utility libraries come with the main `Core` one :
 
 ## How it works
 
+### Installation
+
+3 nuget packages are available:
+
+- [CleanArch.Utilities.Core](https://www.nuget.org/packages/CleanArch.Utilities.Core/) : should be referenced with your service layer
+- [CleanArch.Utilities.DependencyInjection](https://www.nuget.org/packages/CleanArch.Utilities.DependencyInjection/) : should be referenced with your Web API/MVC layer
+- [CleanArch.Utilities.AspNetCore](https://www.nuget.org/packages/CleanArch.Utilities.AspNetCore/) : should be referenced with your DI configuration
+
 ### Responses
 
 The library defines two types of responses :
